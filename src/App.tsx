@@ -5,6 +5,8 @@ import {
   Route,
 } from "react-router-dom";
 import ProductionList from "./pages/productList";
+import Learn from './pages/learn'
+import Shop from './pages/shop'
 // This site has 3 pages, all of which are rendered
 // dynamically in the browser (not server rendered).
 //
@@ -22,9 +24,11 @@ export default function BasicExample() {
           <Route exact path="/">
             <ProductionList />
           </Route>
-          <Route path="/about">
+          <Route path="/learn/:id">
+            <Learn />
           </Route>
-          <Route path="/dashboard">
+          <Route path="/shop/:id">
+            <Shop />
           </Route>
         </Switch>
       </div>

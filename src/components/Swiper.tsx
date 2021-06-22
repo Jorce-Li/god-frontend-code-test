@@ -124,8 +124,12 @@ const SwiperContainer = ({ isPc, slidesPerView, products }) => {
                                     <img alt={p.modelName} src={`../../${p.imageUrl}`} />
                                 </div>
                                 <div className="pl-action">
-                                    <Link to="/learn">LEARN <img alt="learn-arrow" src={chevronSmall} /></Link>
-                                    <Link className="pl-link-shop" to="/shop">SHOP <img alt="learn-arrow" src={chevronSmall} /></Link>
+                                    <Link to={{
+                                        pathname: `/learn/${p.id}`,
+                                    }} >LEARN <img alt="learn-arrow" src={chevronSmall} /></Link>
+                                    <Link className="pl-link-shop" to={{
+                                        pathname: `/shop/${p.id}`,
+                                    }}>SHOP <img alt="learn-arrow" src={chevronSmall} /></Link>
                                 </div>
                             </Card></SwiperSlide>
 

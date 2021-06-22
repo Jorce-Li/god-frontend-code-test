@@ -22,7 +22,7 @@ export type productListType = {
     modelType: string,
     imageUrl: string,
 }
-const ProductionList = () => {
+const ProductList = () => {
     const [initProducts, setInitProducts] = useState([]);
     const [products, setProducts] = useState([]);
     const [slidesPerView, setSlidesPerView] = useState(4);
@@ -74,7 +74,7 @@ const ProductionList = () => {
                 <span>BodyType: </span><SelectInput value={filterValue} onChange={e => filterOnChange(e)}>
                     {
                         bodyTypeList.map((b: string) => {
-                            return (<option value={b}>{b}</option>)
+                            return (<option key={b} value={b}>{b}</option>)
                         })
                     }
                 </SelectInput>
@@ -85,4 +85,4 @@ const ProductionList = () => {
     );
 }
 
-export default ProductionList;
+export default ProductList;
