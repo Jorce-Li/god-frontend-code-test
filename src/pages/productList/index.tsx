@@ -1,38 +1,127 @@
 import React, { useEffect, useState } from "react";
 import styled from 'styled-components'
-const { Card, CardContent, Text, Spacer, } = require('vcc-ui');
+import 'swiper/swiper.scss';
+import {
+    Link,
+} from "react-router-dom";
+import "swiper/components/navigation/navigation.min.css"
+import SwiperCore, {
+    Navigation
+} from 'swiper/core';
 
+// install Swiper modules
+SwiperCore.use([Navigation]);
+
+const { Swiper, SwiperSlide } = require('swiper/react');
+
+
+const { Card, CardContent, } = require('vcc-ui');
+const chevron = require('../../assets/chevron-circled.svg')
+const chevronSmall = require('../../assets/chevron-small.svg')
 export type productListType = {
-    id: String,
-    bodyType: String,
-    modelName: String,
-    modelType: String,
+    id: string,
+    bodyType: string,
+    modelName: string,
+    modelType: string,
     imageUrl: string,
 }
 const Wrapper = styled.section`
-
+.h{
+    box-shadow: none;
+}
+    .swiper-container{
+        overflow: unset;
+    }
+    .swiper-button-next, .swiper-button-prev{
+        top: 120%;
+    }
+    .swiper-button-prev{
+        background-image: url(${chevron});
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        transform: rotateZ(
+            180deg
+            );
+        right: 55px;
+        left: unset;
+    }
+    .swiper-button-prev:after, .swiper-container-rtl .swiper-button-prev:after{
+        content: '';
+    }
+    .swiper-button-next{
+        background-image: url(${chevron});
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+    }
+    .swiper-button-next:after, .swiper-container-rtl .swiper-button-prev:after{
+        content: '';
+    }
+    .pl-type{
+        padding: 0 20px;
+        color: #bbb;
+    }
+    .pl-name{
+        font-weight: bold;
+        padding: 0 20px;
+    }
+    .pl-model{
+        font-weight: 100;
+        color: #bbb;
+    }
+    .pl-action{
+        text-align: center;
+        padding-bottom: 20px;
+        a{
+            text-decoration: none;
+            font-size: 13px;
+            letter-spacing: 2px;
+            font-weight: bold;
+        }
+        img{
+            width: 10px;
+            height: 10px;
+            margin-bottom: -.5px;
+        }
+        .pl-link-shop{
+            margin-left: 15px;
+        }
+    }
 `;
 const ProductionList = () => {
-    const [products, setProducts] = useState<Array<productListType>>([]);
+    const [products, setProducts] = useState([]);
     useEffect(() => {
         const res = require('../../assets/api/cars.json');
         setProducts(res);
     }, [])
     return (
         <Wrapper>
-            {
-                products.map((p: productListType) => {
-                    return (
-                        <Card key={p.id}>
-                            <div>{p.bodyType}</div>
-                            <div>{p.modelName} + {p.modelType}</div>
-                            <CardContent>
-                               <img src={`../../${p.imageUrl}`} />
-                            </CardContent>
-                        </Card>
-                    )
-                })
-            }
+            <Swiper
+                navigation={true}
+                spaceBetween={30}
+                slidesPerView={4}
+                onSlideChange={() => console.log('slide change')}
+            // onSwiper={(swiper) => console.log(swiper)}
+            >
+                {
+                    products.map((p: productListType) => {
+                        return (
+                            <SwiperSlide key={p.id}><Card >
+                                <div className="pl-type">{p.bodyType}</div>
+                                <div className="pl-name">{p.modelName} + <span className="pl-model">{p.modelType}</span></div>
+                                <CardContent>
+                                    <img alt={p.modelName} src={`../../${p.imageUrl}`} />
+                                </CardContent>
+                                <div className="pl-action">
+                                    <Link to="/learn">LEARN <img alt="learn-arrow" src={chevronSmall} /></Link>
+                                    <Link className="pl-link-shop" to="/shop">SHOP <img alt="learn-arrow" src={chevronSmall} /></Link>
+                                </div>
+                            </Card></SwiperSlide>
+
+                        )
+                    })
+                }
+            </Swiper>
+
         </Wrapper>
 
     );
